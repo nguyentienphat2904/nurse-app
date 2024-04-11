@@ -105,3 +105,11 @@ display: flex;
     margin-bottom: 10px;
     color: #919aa3;
 }
+
+@media (max-width: 480px) {
+    .wrapper {
+        left: 15%;
+        scale: 0.65;
+        justify-content: center;
+    }
+}

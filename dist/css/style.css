@@ -379,10 +379,21 @@ header .image-text .header-text {
     position: relative;
     top: 30px;
     font-size: 24px;
+    left: 10px;
 }
 
-@media (max-width: 300px) {
-    
+@media (max-width: 600px) {
+    .sidebar.close {
+        width: 0px;
+        .menu-bar {
+            display: none;
+        }
+        .image {
+            display: none;
+        }
+    }
+    .sidebar.close i {
+        top: 15px;
+    }
 }
-
 

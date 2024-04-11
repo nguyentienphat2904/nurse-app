@@ -8,6 +8,7 @@ document.querySelector(".main-window .bar .funct .add-booking").addEventListener
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 import {
     getFirestore, collection, onSnapshot,
     addDoc, deleteDoc, doc,
@@ -15,7 +16,8 @@ import {
     orderBy, serverTimestamp,
     getDoc,
     Timestamp,
-    QuerySnapshot
+    QuerySnapshot,
+    snapshotEqual
 } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -37,6 +39,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize service
 const database = getFirestore();
+const db = getDatabase();
 
 // collection ref
 const colRefBooking = collection(database, 'booking');
@@ -217,18 +220,38 @@ document.addEventListener('click', (e) => {
         var sex = row.querySelector('.sex').innerHTML;
         var email = row.querySelector('.email').innerHTML;
         var phone = row.querySelector('.phone').innerHTML;
-
+        
             // Fill in form
         form.querySelector('.name').value = name;
         form.querySelector('.id').value = idd;
         form.querySelector('.sex').value = sex;
         form.querySelector('.email').value = email;
         form.querySelector('.phone').value = phone;
+
+            // Find room
+        const data = ref(db, 'Room/');
+        let room;
+        let index = 1;
+        let min;
+        onValue(data, (snapshot) => {
+            const dt = snapshot.val();
+            let list = dt;
+            
+            min = list[1].count;
+            for (let i = 1; i <= list.length - 1; i++) {
+                if (list[i].count < min) {
+                    min = list[i].count;
+                    index = i;
+                }
+            }
+            room = index;
+            form.querySelector('.room').value = room;
+        });
         
         form.querySelector('.confirm').onclick = function(e) {
             
             e.preventDefault();
-        
+            
             addDoc(colRefTreatment, {
         
                 name: name,
@@ -237,7 +260,7 @@ document.addEventListener('click', (e) => {
                 email: email,
                 phone: phone,
                 healthInsurance: form.healthInsuranced.value,
-                room: form.roomd.value,
+                room: room,
                 admissionDate: new Date(form.admissionDated.value).toDateString()
             })
             .then(() => {
@@ -249,6 +272,11 @@ document.addEventListener('click', (e) => {
                 // Delete from booking list
                 const docRef = doc(database, 'booking', id);
                 deleteDoc(docRef);
+                // Update room
+                const data = ref(db, 'Room/' + index);
+                set(data, {
+                    count: min + 1
+                });
             });
         };
     }

@@ -125,9 +125,9 @@
     <form class="popup">
         <div class="close-btn">&times;</div>
         <div class="form">
-            <h2>New booking</h2>
+            <h2>Thêm hẹn khám</h2>
             <div class="form-element">
-                <label for="name">Name</label>
+                <label for="name">Họ và tên</label>
                 <input 
                     type="text" 
                     id="name"
@@ -136,7 +136,7 @@
                 >
             </div>
             <div class="form-element">
-                <label for="id">ID</label>
+                <label for="id">CCCD</label>
                 <input 
                     type="text" 
                     id="id"
@@ -145,7 +145,7 @@
                 >
             </div>
             <div class="form-element">
-                <label for="appointment">Appointment</label>
+                <label for="appointment">Hẹn khám</label>
                 <input 
                     type="date" 
                     id="appointment"
@@ -153,9 +153,9 @@
                 >
             </div>
             <div class="form-element">
-                <label for="sex">Sex</label>
+                <label for="sex">Giới tính</label>
                 <select name="" id="sex">
-                    <option value="">Sex</option>
+                    <option value="">Giới tính</option>
                     <option value="Nữ">Nữ</option>
                     <option value="Nam">Nam</option>
                     <option value="Hiden">Hiden</option>
@@ -171,7 +171,7 @@
             </div>
 
             <div class="form-element">
-                <label for="phone">Phones</label>
+                <label for="phone">SĐT</label>
                 <input 
                     type="text" 
                     id="phone"
@@ -185,11 +185,11 @@
     <!-- CONFIRM REMOVE -->
     <form class="popup-confirm-remove">
         <div class="remove-content">
-            <h2>Xoa benh nhan nay</h2>
-            <p>Thao tac nay se khong khoi phuc lai duoc.</p>
+            <h2>Xác nhận xoá</h2>
+            <p>Sau khi xoá sẽ không thể khôi phục</p>
             <div class="controls">
-                <div class="close">Close</div>
-                <div class="submit">Submit</div>
+                <div class="close">Huỷ</div>
+                <div class="submit">Xác nhận</div>
             </div>
         </div>      
     </form>
@@ -198,9 +198,10 @@
     <form class="popup-confirm-add">
         <div class="close-btn">&times;</div>
         <div class="form">
-            <h2>Xac nhan thong tin</h2>
+            <h2>Chuyển sang danh sách điều trị</h2>
+            <h2>Xác nhận thông tin</h2>
             <div class="form-element">
-                <label for="name">Name</label>
+                <label for="name">Họ và tên</label>
                 <input 
                     type="text" 
                     class="name"
@@ -210,7 +211,7 @@
                 >
             </div>
             <div class="form-element">
-                <label for="id">ID</label>
+                <label for="id">CCCD</label>
                 <input 
                     type="text" 
                     class="id"
@@ -220,9 +221,9 @@
                 >
             </div>
             <div class="form-element">
-                <label for="sex">Sex</label>
+                <label for="sex">Giới tính</label>
                 <select name="" class="sex" id="sexd">
-                    <option value="">Sex</option>
+                    <option value="">Giới tính</option>
                     <option value="Nữ">Nữ</option>
                     <option value="Nam">Nam</option>
                     <option value="Hiden">Hiden</option>
@@ -238,7 +239,7 @@
                 >
             </div>
             <div class="form-element">
-                <label for="phone">Phones</label>
+                <label for="phone">SĐT</label>
                 <input 
                     type="text" 
                     class="phone"
@@ -247,16 +248,16 @@
                 >
             </div>
             <div class="form-element">
-                <label for="room">Room</label>
+                <label for="room">Phòng</label>
                 <input 
                     type="text" 
                     class="room"
                     id="roomd"
-                    required
+                    readonly
                 >
             </div>
             <div class="form-element">
-                <label for="healthInsurance">Health Insurance</label>
+                <label for="healthInsurance">BHYT</label>
                 <input 
                     type="text" 
                     class="healthInsurance"
@@ -265,7 +266,7 @@
                 >
             </div>
             <div class="form-element">
-                <label for="admissionDate">Admission Date</label>
+                <label for="admissionDate">Ngày nhập viện</label>
                 <input 
                     type="date" 
                     class="admissionDate"
@@ -273,7 +274,7 @@
                     required
                 >
             </div>
-            <button class="confirm">Confirm</button>
+            <button class="confirm">Xác nhận</button>
         </div>
     </form>
     
