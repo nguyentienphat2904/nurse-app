@@ -382,7 +382,7 @@ header .image-text .header-text {
     left: 10px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .sidebar.close {
         width: 0px;
         .menu-bar {
@@ -394,6 +394,10 @@ header .image-text .header-text {
     }
     .sidebar.close i {
         top: 15px;
+    }
+    .main-window {
+        left: 0px;
+        width: 96%;
     }
 }
 

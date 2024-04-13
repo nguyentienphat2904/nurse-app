@@ -106,10 +106,11 @@ display: flex;
     color: #919aa3;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 800px) {
     .wrapper {
         left: 15%;
-        scale: 0.65;
+        scale: 0.9;
         justify-content: center;
+        left: 40%;
     }
 }

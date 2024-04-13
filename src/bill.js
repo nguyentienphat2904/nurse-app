@@ -4,6 +4,7 @@ document.querySelector('.invoice-btn').onclick = function(){
 
 document.querySelector(".invoice-wrapper .close-btn").addEventListener("click", () =>{
 
+
     document.querySelector(".invoice-wrapper").classList.remove("active");
     document.querySelector(".main-window").classList.remove("active");
     document.querySelector(".sidebar").classList.remove("active");
@@ -12,6 +13,7 @@ document.querySelector(".invoice-wrapper .close-btn").addEventListener("click", 
 function PrintBill() {
     document.querySelector(".invoice-wrapper").classList.add("active");
     document.querySelector(".main-window").classList.add("active");
+    document.querySelector(".sidebar").classList.add("active");
 };
 
 Window.onload = function() {
@@ -204,6 +206,19 @@ document.addEventListener('click', (e) => {
             let medications = doc.data().medications;
             // console.log(medications);
             addAllItemToBill(medications);
+
+            document.querySelector(".invoice-wrapper .close-btn").onclick = function() {
+
+                bill_table.innerHTML = "";
+                bill.querySelector('.precription').innerHTML = "";
+                bill.querySelector('.name').innerHTML = "";
+                bill.querySelector('.bhyt').innerHTML = "";
+                bill.querySelector('.date').innerHTML = "";
+
+                document.getElementById('sub-total').innerHTML = "";
+                document.getElementById('tax').innerHTML = "";
+                document.getElementById('total').innerHTML = "";
+            }
         });
     }
 });

@@ -248,10 +248,10 @@ table tbody tr:hover {
     top:50%;
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
 }
 
 .main-window.active, .sidebar.active {
-    opacity: 0.3;
     user-select: none;
     pointer-events: none;
 }
@@ -349,7 +349,7 @@ table tbody tr:hover {
     left: 56%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(1);
-    width: calc(90% - 700px);
+    width: 400px;
     height: 95%;
     padding: 20px 30px;
     background: #ffffff;
@@ -369,6 +369,7 @@ table tbody tr:hover {
     top:50%;
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
 }
 
 .popup-confirm-add button {
@@ -397,7 +398,7 @@ table tbody tr:hover {
 }
 
 
-.popup-confirm-addp .form .form-element label {
+.popup-confirm-add .form .form-element label {
     font-size: 14px;
 }
 
@@ -433,6 +434,7 @@ table tbody tr:hover {
     top:50%;
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
 }
 
 .popup-confirm-remove .close,
@@ -516,5 +518,10 @@ table tbody tr:hover {
         left: 45%;
         scale: 0.9;
         width: 480px;
+    }
+    .popup-confirm-add {
+        width: calc(100% - 100px);
+        z-index: 100;
+        margin-left: -20px;
     }
 }
