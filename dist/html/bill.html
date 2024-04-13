@@ -88,13 +88,35 @@
         </div>
     </nav>
     <nav class="main-window">
-        <h6>Xuất hoá đơn</h6>
         <form class="bar">
             <div class="search">
-                <input id="searchBar" type="text" class="form-control" placeholder="Nhập mã hoá đơn" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input id="searchBar" type="text" class="form-control" placeholder="Tìm kiếm" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <select class="form-select" id="categorySelected">
+                    <option selected value="1">Mã hoá đơn</option>
+                    <option value="2">BHYT</option>
+                    <option value="3">Tên</option>
+                    <option value="4">SĐT</option>
+                  </select>
                 <button id="searchButton" class="btn btn-outline-secondary" type="button">Tìm kiếm</button>
             </div>
         </form>
+
+        <div class="scroll-part">
+            <table class="patient">
+                <thead>
+                    <th>STT</th>
+                    <th>BHYT</th>
+                    <th>Họ và tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Mã hoá đơn</th>
+                    <th>Đã thanh toán</th>
+    
+                </thead>
+                <tbody id="tbody1">
+                    
+                </tbody>
+            </table>
+        </div>
     </nav>
     <!-- POPUP-->
     <div class = "invoice-wrapper" id = "print-area">

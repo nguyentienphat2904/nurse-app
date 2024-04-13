@@ -72,126 +72,109 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize service
 const database = getFirestore();
-const db = getDatabase();
 
 // collection ref
 const colRefBill = collection(database, 'bill');
 
-/* SEARCH */
-var searchBar = document.getElementById("searchBar");
-var searchBtn = document.getElementById("searchButton");
-var tbody = document.getElementById('table-body');
+/* DISPLAY BILL LIST */
+onSnapshot(colRefBill, (snapshot) => {
 
-searchBtn.onclick = function() {
-    tbody.innerHTML = "";
-    var filter = searchBar.value;
+    let billList = [];
+    snapshot.docs.forEach((doc) => {
+        billList.push({ ...doc.data(), id: doc.id });
+    })
+    // console.log(billList);
+    addAllItemToTable(billList);
+});
 
-    const docRef = doc(database, 'bill', filter);
-    onSnapshot(docRef, (doc) => {
-        var name = doc.data().patient;
-        var medications = doc.data().medications;
-        var precription = doc.id;
+var no = 0;
+var tbody = document.getElementById('tbody1');
 
-        const bill = document.querySelector('.invoice-wrapper');
-        
-        bill.querySelector('.name').innerHTML = name;
-        bill.querySelector('.precription').innerHTML = precription;
-
-        let currentDate = new Date();
-        let day = currentDate.getDate();
-        let month = currentDate.getMonth() + 1;
-        let year = currentDate.getFullYear();
-        let hours = currentDate.getHours();
-        let minutes = currentDate.getMinutes();
-        let seconds = currentDate.getSeconds();
-        bill.querySelector('.day').innerHTML = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
-        
-        addAllMedToTable(medications)
-        .then(() => {
-            var sum = 0;
-            var tax = 0;
-            var total = 0;
-            var sums = document.getElementsByClassName('sum');
-            for(var i = 0; i < sums.length; i++){
-                sum += parseFloat(sums[i].innerText.replace('$', ''));
-            }
-            tax = (sum / 100 * 10).toFixed(2);
-            total = parseFloat(sum) + parseFloat(tax);
-
-            document.getElementById('sub-total').innerHTML = '$' + sum;
-            document.getElementById('tax').innerHTML = '$' + tax;
-            document.getElementById('total').innerHTML = '$' + total;
-        })
-        .catch((error) => {
-            console.log('Có lỗi xảy ra:', error);
-        });
-    });
-}
-
-function addItemToTable(name, price, description, quantity) {
-
+function addItemToTable(bhyt, name, phone, id) {
+    
     var trow = document.createElement('tr');
     var td0 = document.createElement('td');
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
     var td4 = document.createElement('td');
+    var td5 = document.createElement('td');
 
-    td0.innerHTML = name;
-    td1.innerHTML = price;
-    td2.innerHTML = description;
-    td3.innerHTML = quantity;
+    td0.innerHTML = no++;
+    td1.innerHTML = bhyt;
+    td2.innerHTML = name;
+    td3.innerHTML = phone;
+    td4.innerHTML = id;
+    td5.innerHTML = "Chưa"
+ 
+    trow.appendChild(td0); td0.className = 'no';
+    trow.appendChild(td1); td1.className = 'bhyt'
+    trow.appendChild(td2); td2.className = 'name';
+    trow.appendChild(td3); td3.className = 'phone';
+    trow.appendChild(td4); td4.className = 'precription';
+    trow.appendChild(td5); td5.className = 'status';
 
-    var realPrice = price.replace('$', '');
+    var controlDiv = document.createElement('div');
+    controlDiv.id = 'controlDiv';
+    controlDiv.innerHTML = `<button type="button" class="btn-bill"><i class='bx bx-credit-card-alt'></i></button>`;
 
-    let part = description.split(" ");
-    var realDes = part[0];
-
-    var sum = (realPrice * realDes).toFixed(2);
-    td4.innerHTML = '$' + sum;
-
-    trow.appendChild(td0); td0.className = 'medname';
-    trow.appendChild(td1); td1.className = 'price'
-    trow.appendChild(td2); td2.className = 'description';
-    trow.appendChild(td3); td3.className = 'quantity';
-    trow.appendChild(td4); td4.className = 'sum';
-
+    trow.appendChild(controlDiv);
     tbody.appendChild(trow);
 }
 
-function addAllMedToTable(medList) {
+function addAllItemToTable(billList) {
+
+    no = 1;
     tbody.innerHTML = "";
-
-    const data = ref(db, 'admin/medicine/data');
-    onValue(data, (snapshot) => {
-        const dt = snapshot.val();
-        let list = dt;
-        medList.forEach(element => {
-            var medName = element.name;
-            var price = 0;
-            // find price
-            for (let element of list) {
-                if (element.name == medName) {
-                    price = element.price;
-                    break;
-                }
-            }
-
-            addItemToTable( element.name,
-                            price, 
-                            element.description, 
-                            element.quantity);
-        }); 
-    });
-
-    return new Promise((resolve, reject) => {
-
-        try {
-            setTimeout(() => {
-                resolve();  
-            }, 2000);
-        } catch (error) {
-            reject(error); 
-        }
+    billList.forEach(element => {
+        addItemToTable( element.bhyt,
+                        element.patient, 
+                        element.contact, 
+                        element.id);
     });
 }
+/* END DISPLAY BILL LIST */
+
+/* SEARCH */
+var searchBar = document.getElementById("searchBar");
+var searchBtn = document.getElementById("searchButton");
+var category = document.getElementById("categorySelected");
+var tbody = document.getElementById("tbody1");
+
+function searchTable(Category) {
+
+    var filter = searchBar.value.toUpperCase();
+    var tr = tbody.getElementsByTagName("tr");
+    var found;
+
+    for (let i = 0; i < tr.length; i++) {
+
+        var td = tr[i].getElementsByClassName(Category);
+
+        for (let j = 0; j < td.length; j++) {
+            
+            if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                found = true;
+            }
+        }
+
+        if (found) {
+            tr[i].style.display = "table-row";
+            found = false;
+        }
+        else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+
+searchBtn.onclick = function() {
+
+    if (searchBar.value == "") searchTable("precription");
+    else if (category.value == 1) searchTable("precription");
+    else if (category.value == 2) searchTable("bhyt");
+    else if (category.value == 3) searchTable("name");
+    else if (category.value == 4) searchTable("phone");
+}
+
+/* END SEARCH */
