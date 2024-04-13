@@ -204,7 +204,7 @@ ul li{
 .invoice-wrapper.active {
     opacity: 1;
     top: 5%;
-    left: 20%;
+    left: 30%;
 }
 
 .main-window.active, .sidebar.active {

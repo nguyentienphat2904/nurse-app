@@ -95,7 +95,7 @@ onSnapshot(colRefBill, (snapshot) => {
 var no = 0;
 var tbody = document.getElementById('tbody1');
 
-function addItemToTable(bhyt, name, phone, id) {
+function addItemToTable(bhyt, name, phone, id, status) {
     
     var trow = document.createElement('tr');
     var td0 = document.createElement('td');
@@ -110,7 +110,12 @@ function addItemToTable(bhyt, name, phone, id) {
     td2.innerHTML = name;
     td3.innerHTML = phone;
     td4.innerHTML = id;
-    td5.innerHTML = "Chưa"
+    if (status) {
+        td5.innerHTML = `<input type="checkbox" class="check" checked>`
+    }
+    else {
+        td5.innerHTML = `<input type="checkbox" class="check">`
+    }
  
     trow.appendChild(td0); td0.className = 'no';
     trow.appendChild(td1); td1.className = 'bhyt'
@@ -127,6 +132,29 @@ function addItemToTable(bhyt, name, phone, id) {
     tbody.appendChild(trow);
 }
 
+document.addEventListener('click', (e) => {
+    if (e.target && e.target.classList.contains('check')) {
+
+        const row = e.target.closest('tr');
+        let precription = row.querySelector('.precription').innerHTML;
+
+        const docRef = doc(database, 'bill', precription);
+        let status = row.querySelector('.check');
+
+        if (status.checked) {
+            updateDoc(docRef, {
+                status: true
+            });
+        }
+        else {
+            updateDoc(docRef, {
+                status: false
+            });
+        }
+
+    }
+});
+
 function addAllItemToTable(billList) {
 
     no = 1;
@@ -135,7 +163,8 @@ function addAllItemToTable(billList) {
         addItemToTable( element.bhyt,
                         element.patient, 
                         element.contact, 
-                        element.id);
+                        element.id,
+                        element.status);
     });
 }
 
@@ -146,11 +175,11 @@ document.addEventListener('click', (e) => {
 
         const row = e.target.closest('tr');
         let precription = row.querySelector('.precription').innerHTML;
-        console.log(precription);
+        // console.log(precription);
         
         const docRef = doc(database, 'bill', precription)
         getDoc(docRef).then((doc) => {
-            console.log(doc.data(), doc.id)
+            // console.log(doc.data(), doc.id)
 
             const bill = document.querySelector('.invoice-wrapper');
 
@@ -173,7 +202,7 @@ document.addEventListener('click', (e) => {
             document.getElementById('total').innerHTML = doc.data().money.total;
             
             let medications = doc.data().medications;
-            console.log(medications);
+            // console.log(medications);
             addAllItemToBill(medications);
         });
     }
