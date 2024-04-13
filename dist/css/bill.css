@@ -147,6 +147,11 @@ ul li{
     padding-bottom: 10px;
 }
 
+.invoice-head-bottom-left .bill-content {
+    display: flex;
+    flex-direction: row;
+}
+
 @media screen and (max-width: 992px){
     .invoice{
         padding: 40px;

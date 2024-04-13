@@ -24,7 +24,7 @@
     <title>IT HOSPITAL</title>
 </head>
 <body>
-    <nav class="sidebar close">
+    <nav class="sidebar">
         <header>
             <div class="image-text">
                 <a href="index.html">
@@ -147,8 +147,19 @@
                     <div class = "invoice-head-bottom">
                         <div class = "invoice-head-bottom-left">
                             <ul>
-                                <li class = 'text-bold'>Bệnh nhân:</li>
-                                <li class="name" id="name"></li>
+                                <div class="bill-content">
+                                    <li class='text-bold'>Bệnh nhân: </li>
+                                    <li class="name" id="name"></li>
+                                </div>         
+                                <div class="bill-content">
+                                    <li class="text-bold">BHYT: </li>
+                                    <li class="bhyt" id="bhyt"></li>
+                                </div>
+                                <div class="bill-content">
+                                    <li class="text-bold">Ngày: </li>
+                                    <li class="date" id="date"></li>
+                                </div>
+                                
                             </ul>
                         </div>
                         <div class = "invoice-head-bottom-right">
@@ -169,7 +180,7 @@
                                 <td class = "text-bold">Tên thuốc</td>
                                 <td class = "text-bold">Đơn giá</td>
                                 <td class = "text-bold">Số lượng</td>
-                                <td class = "text-bold">Lưu ý</td>
+                                <td class = "text-bold">HDSD</td>
                                 <td class = "text-bold">Thành tiền</td>
                             </thead>
                             <tbody id="table-body">
@@ -179,7 +190,7 @@
                         <div class = "invoice-body-bottom">
                             <div class = "invoice-body-info-item border-bottom">
                                 <div class = "info-item-td text-end text-bold">Tổng cộng:</div>
-                                <div class = "info-item-td text-end" id="sub-total"></div>
+                                <div class = "info-item-td text-end" id="total"></div>
                             </div>
                             <div class = "invoice-body-info-item border-bottom">
                                 <div class = "info-item-td text-end text-bold">Thuế:</div>
@@ -187,7 +198,7 @@
                             </div>
                             <div class = "invoice-body-info-item">
                                 <div class = "info-item-td text-end text-bold">Thành tiền:</div>
-                                <div class = "info-item-td text-end" id="total"></div>
+                                <div class = "info-item-td text-end" id="sub-total"></div>
                             </div>
                         </div>
                     </div>

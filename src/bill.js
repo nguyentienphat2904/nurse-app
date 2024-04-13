@@ -9,6 +9,11 @@ document.querySelector(".invoice-wrapper .close-btn").addEventListener("click", 
     document.querySelector(".sidebar").classList.remove("active");
 });
 
+function PrintBill() {
+    document.querySelector(".invoice-wrapper").classList.add("active");
+    document.querySelector(".main-window").classList.add("active");
+};
+
 Window.onload = function() {
     document.getElementById("download")
     .addEventListener("click", () => {
@@ -16,28 +21,6 @@ Window.onload = function() {
         html2pdf().from(invoice).save();
     })
 }
-
-// fetch(`./json/data.json`) 
-//     .then(function(response) {
-//         return response.json();
-//     })
-//     .then (function(data) {
-//         let placeholder = document.querySelector("#table-body");
-//         let out = "";
-//         for (let product of data) {
-//             out += `
-//             <tr>
-//                 <td>${product.med_Id}</td>
-//                 <td>${product.med_name}</td>
-//                 <td>${product.price}</td>
-//                 <td></td>
-//                 <td></td>
-//             </tr>
-//         `;
-//         }
-
-//         placeholder.innerHTML = out;
-//     });
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -75,6 +58,28 @@ const database = getFirestore();
 
 // collection ref
 const colRefBill = collection(database, 'bill');
+
+// fetch(`https://console.firebase.google.com/project/ithopital/firestore/databases/-default-/data/~2Fbill~2FDa171297399574.json`) 
+//     .then(function(response) {
+//         return response.json();
+//     })
+//     .then (function(data) {
+//         let placeholder = document.querySelector("#table-body");
+//         let out = "";
+//         for (let product of data) {
+//             out += `
+//             <tr>
+//                 <td>${product.bhyt}</td>
+//                 <td>${product.med_name}</td>
+//                 <td>${product.price}</td>
+//                 <td></td>
+//                 <td></td>
+//             </tr>
+//         `;
+//         }
+
+//         placeholder.innerHTML = out;
+//     });
 
 /* DISPLAY BILL LIST */
 onSnapshot(colRefBill, (snapshot) => {
@@ -133,6 +138,82 @@ function addAllItemToTable(billList) {
                         element.id);
     });
 }
+
+var bill_table = document.getElementById('table-body');
+document.addEventListener('click', (e) => {
+    if (e.target && (e.target.classList.contains('btn-bill') || e.target.classList.contains('bx-credit-card-alt'))) {
+        PrintBill();
+
+        const row = e.target.closest('tr');
+        let precription = row.querySelector('.precription').innerHTML;
+        console.log(precription);
+        
+        const docRef = doc(database, 'bill', precription)
+        getDoc(docRef).then((doc) => {
+            console.log(doc.data(), doc.id)
+
+            const bill = document.querySelector('.invoice-wrapper');
+
+            bill.querySelector('.precription').innerHTML = doc.data().precription;
+            bill.querySelector('.name').innerHTML = doc.data().patient;
+            bill.querySelector('.bhyt').innerHTML = doc.data().bhyt;
+
+            let currentDate = new Date();
+            let day = currentDate.getDate();
+            let month = currentDate.getMonth() + 1;
+            let year = currentDate.getFullYear();
+            let hours = currentDate.getHours();
+            let minutes = currentDate.getMinutes();
+            let seconds = currentDate.getSeconds();
+
+            bill.querySelector('.date').innerHTML = day + '/' + month + '/' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+
+            document.getElementById('sub-total').innerHTML = doc.data().money.subtotal;
+            document.getElementById('tax').innerHTML = doc.data().money.tax;
+            document.getElementById('total').innerHTML = doc.data().money.total;
+            
+            let medications = doc.data().medications;
+            console.log(medications);
+            addAllItemToBill(medications);
+        });
+    }
+});
+
+function addAllItemToBill(bill) {
+
+    bill_table.innerHTML = "";
+    bill_table.forEach(element => {
+        addItemToBill( element.item,
+                        element.price, 
+                        element.qty, 
+                        element.thuoc_info,
+                        element.total_price);
+    });
+}
+
+function addItemToBill(item, price, qty, thuoc_info, total_price) {
+    
+    var trow = document.createElement('tr');
+    var td0 = document.createElement('td');
+    var td1 = document.createElement('td');
+    var td2 = document.createElement('td');
+    var td3 = document.createElement('td');
+    var td4 = document.createElement('td');
+
+    td0.innerHTML = item;
+    td1.innerHTML = price;
+    td2.innerHTML = qty;
+    td3.innerHTML = thuoc_info;
+    td4.innerHTML = total_price;
+
+    trow.appendChild(td0);
+    trow.appendChild(td1);
+    trow.appendChild(td2);
+    trow.appendChild(td3);
+    trow.appendChild(td4);
+
+    bill_table.appendChild(trow);
+}
 /* END DISPLAY BILL LIST */
 
 /* SEARCH */
@@ -178,3 +259,4 @@ searchBtn.onclick = function() {
 }
 
 /* END SEARCH */
+

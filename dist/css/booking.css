@@ -515,5 +515,6 @@ table tbody tr:hover {
     .popup {
         left: 45%;
         scale: 0.9;
+        width: 480px;
     }
 }
