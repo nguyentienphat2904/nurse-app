@@ -182,7 +182,7 @@ document.addEventListener('click', (e) => {
 function addAllItemToBill(bill) {
 
     bill_table.innerHTML = "";
-    bill_table.forEach(element => {
+    bill.forEach(element => {
         addItemToBill( element.item,
                         element.price, 
                         element.qty, 
