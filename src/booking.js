@@ -247,11 +247,11 @@ document.addEventListener('click', (e) => {
             room = index;
             form.querySelector('.room').value = room;
         });
-        
-        form.querySelector('.confirm').onclick = function(e) {
-            
+
+        form.addEventListener('submit', (e) => {
+    
             e.preventDefault();
-            
+        
             addDoc(colRefTreatment, {
         
                 name: name,
@@ -278,7 +278,7 @@ document.addEventListener('click', (e) => {
                     count: min + 1
                 });
             });
-        };
+        });
     }
 });
 /* END ADD TO TREATMENT LIST */

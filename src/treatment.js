@@ -161,16 +161,22 @@ document.querySelector(".modify .close-btn").addEventListener("click", () =>{
     document.querySelector(".sidebar").classList.remove("active");
 });
 
+function closeModify() {
+
+    document.querySelector(".modify").classList.remove("active");
+    document.querySelector(".main-window").classList.remove("active");
+    document.querySelector(".sidebar").classList.remove("active");
+}
+
+const form = document.querySelector('.modify');
 document.addEventListener('click', (e) => {
     if (e.target && (e.target.classList.contains('btn-modify') || e.target.classList.contains('bx-edit'))) {
         
         openModify();
 
-        const form = document.querySelector('.modify');
-
         // Get information
         const row = e.target.closest('tr');
-        var id = row.querySelector('.hide').value;
+        var hiden = row.querySelector('.hide').value;
         var name = row.querySelector('.name').innerHTML;
         var idd = row.querySelector('.idd').innerHTML;
         var sex = row.querySelector('.sex').innerHTML;
@@ -184,31 +190,36 @@ document.addEventListener('click', (e) => {
         form.querySelector('.healthInsurance').value = healthInsurance;
         form.querySelector('.room').value = room;
 
-        const parts = admisionDate.split(" ");
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const month = monthNames.indexOf(parts[1]);
-        const day = parseInt(parts[2]);
-        const year = parseInt(parts[3]);
-        const date = new Date(year, month, day + 1).toISOString().split("T")[0];
-        console.log(date);
-        form.querySelector('.admissionDate').value = date;
-
+        if (admisionDate != 'Invalid Date') {
+            const parts = admisionDate.split(" ");
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const month = monthNames.indexOf(parts[1]);
+            const day = parseInt(parts[2]);
+            const year = parseInt(parts[3]);
+            const date = new Date(year, month, day + 1).toISOString().split("T")[0];
+            console.log(date);
+            form.querySelector('.admissionDate').value = date;
+        }
+        
         // Modify
         form.addEventListener('submit', (e) => {
 
             e.preventDefault();
 
-            const docRef = doc(database, 'treatment', id);
-            updateDoc(docRef, {
+            const docuRef = doc(database, 'treatment', hiden);
+            updateDoc(docuRef, {
                 name: form.querySelector('.name').value,
                 idd: form.querySelector('.id').value,
                 sex: form.querySelector('.sex').value,
                 healthInsurance: form.querySelector('.healthInsurance').value,
-                room: form.querySelector('.room').value = room,
-                admissionDate: new Date(form.admissionDated.value).toDateString()
+                room: form.querySelector('.room').value,
+                admissionDate: new Date(form.querySelector('.admissionDate').value).toDateString()
             })
             .then(() => {
                 form.reset();
+                document.querySelector(".modify").classList.remove("active");
+                document.querySelector(".main-window").classList.remove("active");
+                document.querySelector(".sidebar").classList.remove("active");
             });
         });
     }
